@@ -85,6 +85,11 @@ document.addEventListener('DOMContentLoaded', () => {
     if (sidebarLinks.length > 0 && originalContent && underConstruction) {
         sidebarLinks.forEach(link => {
             link.addEventListener('click', function(e) {
+                const isLocation = this.getAttribute('data-ko') === '찾아오시는길';
+                if (isLocation) {
+                    return;
+                }
+                
                 e.preventDefault();
                 
                 // Clear any existing timeout
