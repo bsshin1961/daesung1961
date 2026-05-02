@@ -74,60 +74,27 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Sidebar menu interactions (Under construction logic)
-    const sidebarLinks = document.querySelectorAll('.sidebar-menu a');
-    const originalContent = document.querySelector('.original-content');
-    const underConstruction = document.querySelector('.under-construction');
-    const ucTitle = document.querySelector('.uc-title');
-    const ucBreadcrumb = document.querySelector('.uc-breadcrumb');
-    let constructionTimeout;
-
-    if (sidebarLinks.length > 0 && originalContent && underConstruction) {
-        sidebarLinks.forEach(link => {
+    // Unconnected links (Under construction page redirection)
+    document.querySelectorAll('a[href="#"], a[href=""]').forEach(link => {
+        // Skip specific functional links
+        if (link.classList.contains('btn-top')) return;
+        
+        // CEO Greeting is implemented
+        if (link.getAttribute('data-ko') === 'CEO인사말') {
             link.addEventListener('click', function(e) {
                 e.preventDefault();
-                
-                // Clear any existing timeout
-                if (constructionTimeout) clearTimeout(constructionTimeout);
-
-                const isCEO = this.getAttribute('data-ko') === 'CEO인사말';
-
-                // Change active state
                 document.querySelectorAll('.sidebar-menu li').forEach(li => li.classList.remove('active'));
                 this.parentElement.classList.add('active');
-
-                if (isCEO) {
-                    originalContent.style.display = 'block';
-                    underConstruction.style.display = 'none';
-                } else {
-                    // Update UC texts based on current language
-                    const currentLang = document.documentElement.lang || 'ko';
-                    const text = this.getAttribute(`data-${currentLang}`) || this.textContent;
-                    
-                    ucTitle.textContent = text;
-                    ucTitle.setAttribute('data-ko', this.getAttribute('data-ko'));
-                    ucTitle.setAttribute('data-en', this.getAttribute('data-en'));
-                    
-                    ucBreadcrumb.textContent = text;
-                    ucBreadcrumb.setAttribute('data-ko', this.getAttribute('data-ko'));
-                    ucBreadcrumb.setAttribute('data-en', this.getAttribute('data-en'));
-
-                    // Toggle views
-                    originalContent.style.display = 'none';
-                    underConstruction.style.display = 'block';
-
-                    // Revert after 3 seconds
-                    constructionTimeout = setTimeout(() => {
-                        underConstruction.style.display = 'none';
-                        originalContent.style.display = 'block';
-                        
-                        // Revert active state to CEO인사말
-                        document.querySelectorAll('.sidebar-menu li').forEach(li => li.classList.remove('active'));
-                        const ceoLink = document.querySelector('.sidebar-menu a[data-ko="CEO인사말"]');
-                        if (ceoLink) ceoLink.parentElement.classList.add('active');
-                    }, 3000);
-                }
+                const originalContent = document.querySelector('.original-content');
+                if (originalContent) originalContent.style.display = 'block';
             });
+            return;
+        }
+
+        // Redirect unconnected links to Under Construction page
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            window.location.href = 'uc.html';
         });
-    }
+    });
 });
