@@ -683,36 +683,42 @@ ul {
 @media (max-width: 768px) {
     /* Header Stacking */
     .header {
-        position: relative; /* Remove sticky to save screen height on mobile */
+        position: sticky; /* Keep sticky for easy navigation */
+        top: 0;
+        height: auto;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.05) !important;
     }
     .header-container {
         flex-direction: column;
-        gap: 15px;
-        padding: 15px 20px;
+        gap: 10px;
+        padding: 12px 15px;
     }
     .header-left {
-        flex-direction: column;
-        gap: 15px;
         width: 100%;
-        align-items: center;
-    }
-    .contact-info {
-        font-size: 13px;
-        flex-wrap: wrap;
         justify-content: center;
     }
-    .contact-info .divider {
-        height: 12px;
+    .contact-info {
+        justify-content: center;
+        text-align: center;
+    }
+    .contact-info .divider,
+    .contact-info .contact-item {
+        display: none; /* Hide TEL and FAX on mobile */
+    }
+    .contact-info .contact-name {
+        font-size: 18px;
+        font-weight: 800;
     }
     .nav ul {
         display: flex;
         flex-wrap: wrap;
         justify-content: center;
-        gap: 10px;
+        gap: 8px 12px;
         width: 100%;
     }
     .nav a {
         font-size: 14px;
+        font-weight: 500;
     }
     
     /* Hero Section (9:16 fit) */
